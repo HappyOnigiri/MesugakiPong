@@ -8,8 +8,10 @@ import { I18nManager, type Resources } from "@shared-ts/i18n";
 import { version as appVersionString } from "../package.json";
 import characterImg from "./assets/character.png";
 
-const MESUGAKI_PONG_URL =
-	"https://onigiri-game-portal.vercel.app/mesugaki-pong/";
+const MESUGAKI_PONG_URL = new URL(
+	window.location.pathname,
+	window.location.origin,
+).toString();
 
 const resources: Resources = {
 	ja: {
