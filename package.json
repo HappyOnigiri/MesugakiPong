@@ -9,7 +9,7 @@
     "build": "vite build"
   },
   "engines": {
-    "node": "24.14.1"
+    "node": "24"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
