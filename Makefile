@@ -1,6 +1,6 @@
-.PHONY: ci ci-check ts-check-diff ts-fix-diff html-check-diff html-fix-diff check-ts watch-ui build-ui repomix check-ts-rules setup
+.PHONY: ci ci-check ts-check-diff ts-fix-diff html-check-diff html-fix-diff check-ts run-dev repomix check-ts-rules setup
 # =============================================================================
-# Any Products Makefile
+# MesugakiPong Makefile
 # =============================================================================
 
 # CI: 全てのチェックを実行 (自動修正あり)
@@ -13,56 +13,26 @@ ci-check:
 	$(MAKE) html-check-diff
 	$(MAKE) check-ts
 	$(MAKE) check-ts-rules
-	$(MAKE) check-sushi-data
 
-# ポータルのビルド
-build-ui:
-	npm run build
-
-# ポータルの開発サーバー起動
-watch-ui:
+# 開発サーバー起動
+run-dev:
 	npm run dev
 
-# 各プロジェクトディレクトリで TypeScript の型チェックを実行
+# TypeScript の型チェックを実行
 check-ts:
-	@echo "Checking TypeScript in all projects..."
-	@for dir in $$(find . -maxdepth 2 -name "tsconfig.json" -not -path "*/node_modules/*" -not -path "./_template/*" -exec dirname {} \;) ; do \
-		if [ "$$dir" != "." ] && [ "$$dir" != "./_template" ]; then \
-			echo "------------------------------------------------------------"; \
-			echo "Checking: $$dir"; \
-			(cd $$dir && npx -p typescript tsc --noEmit) || exit 1; \
-		fi \
-	done
-	@echo "------------------------------------------------------------"
+	@echo "Checking TypeScript..."
+	npx -p typescript tsc --noEmit
 	@echo "TypeScript check completed successfully."
 
 # カスタムルールのチェック
 check-ts-rules:
 	python3 scripts/check_ts_rules.py
 
-# 寿司データのチェック
-check-sushi-data:
-	@echo "Checking sushi data in quantum-maguro..."
-	@cd quantum-maguro && \
-	scripts=$$(ls check_scripts/*.mjs check_scripts/*.js check_scripts/*.py check_scripts/*.sh 2>/dev/null); \
-	if [ -z "$$scripts" ]; then \
-		echo "No check scripts found in check_scripts/"; \
-	else \
-		for script in $$scripts; do \
-			echo "Running $$script..."; \
-			case "$$script" in \
-				*.py) python3 $$script || exit 1 ;; \
-				*.sh) sh $$script || exit 1 ;; \
-				*) node $$script || exit 1 ;; \
-			esac; \
-		done; \
-	fi
-
 # TS/TSXの静的解析（Biome使用）
 ts-check-diff:
 	@files="$$( ( \
 		if [ "$$CI" = "true" ]; then \
-			git ls-files '*.ts' '*.tsx' | grep -v '^_template/'; \
+			git ls-files '*.ts' '*.tsx'; \
 		else \
 			git diff --name-only --diff-filter=ACMRTUXB HEAD -- '*.ts' '*.tsx' 2>/dev/null; \
 			git diff --cached --name-only --diff-filter=ACMRTUXB HEAD -- '*.ts' '*.tsx' 2>/dev/null; \
@@ -81,7 +51,7 @@ ts-check-diff:
 ts-fix-diff:
 	@files="$$( ( \
 		if [ "$$CI" = "true" ]; then \
-			git ls-files '*.ts' '*.tsx' | grep -v '^_template/'; \
+			git ls-files '*.ts' '*.tsx'; \
 		else \
 			git diff --name-only --diff-filter=ACMRTUXB HEAD -- '*.ts' '*.tsx' 2>/dev/null; \
 			git diff --cached --name-only --diff-filter=ACMRTUXB HEAD -- '*.ts' '*.tsx' 2>/dev/null; \
@@ -100,7 +70,7 @@ ts-fix-diff:
 html-check-diff:
 	@files="$$( ( \
 		if [ "$$CI" = "true" ]; then \
-			git ls-files '*.html' | grep -v '^_template/'; \
+			git ls-files '*.html'; \
 		else \
 			git diff --name-only --diff-filter=ACMRTUXB HEAD -- '*.html' 2>/dev/null; \
 			git diff --cached --name-only --diff-filter=ACMRTUXB HEAD -- '*.html' 2>/dev/null; \
@@ -119,7 +89,7 @@ html-check-diff:
 html-fix-diff:
 	@files="$$( ( \
 		if [ "$$CI" = "true" ]; then \
-			git ls-files '*.html' | grep -v '^_template/'; \
+			git ls-files '*.html'; \
 		else \
 			git diff --name-only --diff-filter=ACMRTUXB HEAD -- '*.html' 2>/dev/null; \
 			git diff --cached --name-only --diff-filter=ACMRTUXB HEAD -- '*.html' 2>/dev/null; \
@@ -134,17 +104,8 @@ html-fix-diff:
 	echo "$$files" | sed 's/^/ - /'; \
 	npx prettier --write $$files
 
-# 各アプリケーションの repomix を作成
-repomix-apps:
-	@mkdir -p tmp/repomix/apps
-	@apps=$$(jq -r 'keys[] | select(. != "_template")' apps.json); \
-	for app in $$apps; do \
-		echo "Generating repomix for $$app..."; \
-		npx repomix $$app --ignore "**/node_modules/**,**/*.png,**/*.jpg,**/*.jpeg,**/*.gif,**/*.svg,**/*.ico" --output tmp/repomix/apps/$$app.txt; \
-	done
-
 # プロジェクト全体を一つのファイルにまとめる (LLM用)
-repomix: repomix-apps
+repomix:
 	@mkdir -p tmp/repomix
 	# フルバージョン
 	npx repomix --output tmp/repomix/repomix-full.txt
