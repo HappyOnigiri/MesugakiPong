@@ -101,7 +101,7 @@ def main():
                         glob.glob("*/check_scripts/**/*.sh", recursive=True)
     for script in app_check_scripts:
         script_path = Path(script)
-        # ディレクトリ名を取得 (例: quantum-maguro)
+        # ディレクトリ名を取得 (例: mesugaki-pong)
         app_name = script_path.parts[0]
         script_basename = script_path.name
         name = f"{app_name}: {script_basename}"

@@ -16,17 +16,13 @@ Fun games you can play in your browser!
 
 ## Included Games
 
-### 1. MESUGAKI PONG
+### MESUGAKI PONG
 
 **A chaotic ping pong game where a cheeky brat taunts you.**
 
 <img src=".github/images/mesugaki-pong-en.jpg" alt="Screenshot of Mesugaki Pong game UI">
 
-### 2. Quantum Maguro
 
-**An exhilarating typing game themed after conveyor belt sushi! Aim for high scores by typing the sushi names in Romaji.**
-
-<img src=".github/images/quantum-maguro-en.jpg" alt="Screenshot of Quantum Maguro game UI">
 
 ## Tech Stack
 
@@ -43,10 +39,10 @@ Steps to run the project locally:
 
 ```bash
 # Clone the repository
-git clone git@github.com:HappyOnigiri/GamePortal
+git clone git@github.com:HappyOnigiri/MesugakiPong
 
 # Navigate to the project directory
-cd GamePortal
+cd MesugakiPong
 
 # Install dependencies
 npm install

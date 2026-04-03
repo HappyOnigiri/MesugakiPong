@@ -16,17 +16,13 @@ _Read this in [English](README.en.md)._
 
 ## 収録ゲーム
 
-### 1. メスガキポンポン (Mesugaki Pong)
+### メスガキポンポン (Mesugaki Pong)
 
 **メスガキに煽られながらやるカオスなピンポンゲーム。**
 
 <img src=".github/images/mesugaki-pong.jpg" alt="メスガキポンポンのゲーム画面">
 
-### 2. 量子マグロ亭 (Quantum Maguro)
 
-**回転寿司がテーマの爽快タイピングゲーム！流れてくる寿司ネタをローマ字入力して高得点を目指そう。**
-
-<img src=".github/images/quantum-maguro.jpg" alt="量子マグロ亭のゲーム画面">
 
 ## Tech Stack
 
@@ -43,10 +39,10 @@ _Read this in [English](README.en.md)._
 
 ```bash
 # リポジトリをクローン
-git clone git@github.com:HappyOnigiri/GamePortal
+git clone git@github.com:HappyOnigiri/MesugakiPong
 
 # プロジェクトディレクトリへ移動
-cd GamePortal
+cd MesugakiPong
 
 # 依存関係をインストール
 npm install
