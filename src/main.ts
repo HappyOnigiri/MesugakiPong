@@ -510,8 +510,8 @@ function update() {
 	if (
 		ball.y + ball.radius >= paddle.y &&
 		ball.y - ball.radius <= paddle.y + paddle.height &&
-		ball.x >= paddle.x &&
-		ball.x <= paddle.x + paddle.width
+		ball.x + ball.radius >= paddle.x &&
+		ball.x - ball.radius <= paddle.x + paddle.width
 	) {
 		// Avoid double collision
 		if (ball.dy > 0) {
