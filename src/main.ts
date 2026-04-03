@@ -626,6 +626,12 @@ function update() {
 						shareBtn.textContent = i18n.t("share.btn");
 						previewLabel.textContent = i18n.t("share.preview_label");
 						restartBtn.textContent = i18n.t("mp.restart");
+						const updatedGameOverText = i18n.t("game_over");
+						span.style.fontSize =
+							updatedGameOverText.length > 25
+								? `${GAME_OVER_FONT_SIZE * 0.7}px`
+								: `${GAME_OVER_FONT_SIZE}px`;
+						span.textContent = updatedGameOverText;
 					}
 				},
 				{ signal: langListenerController.signal },
