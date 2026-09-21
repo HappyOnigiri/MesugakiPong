@@ -1,7 +1,7 @@
 {
   "name": "mesugaki-pong",
   "private": true,
-  "version": "1.5.2",
+  "version": "1.5.3",
   "license": "MIT",
   "description": "MesugakiPong",
   "packageManager": "pnpm@10.33.0",
